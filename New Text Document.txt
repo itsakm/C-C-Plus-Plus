@@ -1,0 +1,98 @@
+void del()
+{
+    int flag=0,n=0,rm,rn;
+    char ch;
+    char x[30];
+    FILE *file,*file1;
+    file =fopen("record.txt","rb");
+    rewind(file);
+    fflush(file);
+    system("cls");
+    window(24,9,35,12);
+    gotoxy(35,7);
+    printf("DELETE AN ITEM");
+    gotoxy(26,11);
+    printf("Enter The Code Of item:");
+    fflush(stdin);
+    gets(x);
+    while(fread(&item,sizeof(item),1,file))
+    {
+        if(strcmp(item.code,x)==0)
+        {
+            flag=1;
+            gotoxy(34,13);
+            printf("Name:%s",item.name);
+            gotoxy(34,14);
+            printf("Rate:%f",item.rate);
+            gotoxy(34,15);
+            printf("Quantity:%d",item.quantity);
+            fclose(file);
+        }
+    }
+    if(flag==0)
+    {
+        gotoxy(30,15);
+        printf("Item Not Found..!!");
+        fclose(file);
+    }
+    else if(flag==1)
+    {
+        file=fopen("record.txt","rb");
+        
+        rewind(file);
+        fflush(file);
+        
+        gotoxy(29,17);
+        printf("Do you want to delete:");
+        scanf("%c",&ch);
+        if(toupper(ch)=='Y')
+        {
+            gotoxy(31,18);
+            printf("inside if");
+            getch();
+            while(fread(&item,sizeof(item),1,file))
+            {
+                gotoxy(29,18);
+                printf("%s",item.code);
+                printf("%s",x);
+                if(strcmp(item.code,x)!=0)
+                {
+                    file1=fopen("record1.txt","ab");
+                    fwrite(&item,sizeof(item),1,file1);
+                    n=1;
+                }
+            }
+            if(n==1)
+            {
+            gotoxy(30,19);
+            printf("Items data deleted %d",n); 
+            fclose(file);
+            
+            rm= remove("record.txt");
+            if(rm!=0)
+            {
+                gotoxy(30,20);
+                printf("nhi huua");
+                remove("record.txt");
+            }
+            fclose(file1);
+            rn=rename("record1.txt","record.txt");
+            if(rn!=0)
+            {
+                gotoxy(30,21);
+                printf("nhi huua");
+                rename("record1.txt","record.txt");
+            }
+            }
+            else if(n==0)
+            {
+                gotoxy(30,19);
+                printf("error");
+
+            }
+        }
+    }
+    
+    getch();
+    d_mainmenu();
+}

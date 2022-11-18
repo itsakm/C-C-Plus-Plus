@@ -1,0 +1,29 @@
+#include<stdio.h>
+int main()
+{
+    int n,val[100],i=0,j=0,k=0,count1=0,count2[100]={0};
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&val[i]);
+        for(j=1;j<=val[i];j++)
+        {
+            count1=0;
+            for(k=1;k<=val[i];k++)
+            {
+                if(j%k==0)
+                {
+                    count1++;
+                }
+            }
+            if(count1==3)
+            {
+                count2[i]++;
+            }
+        }
+    }
+    for(i=0;i<n;i++)
+    {
+         printf("%d\n",count2[i]);
+    }
+}
